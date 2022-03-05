@@ -40,6 +40,8 @@ const Country = ({c}) => {
         <ul>
           {Object.values(c.languages).map(l => <li key={l}>{l}</li>)}
         </ul>
+        <img src={c.flags.png} />
+        <h3>Weather in {c.capital}</h3>
       </>
   )
 }
