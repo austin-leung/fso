@@ -30,6 +30,7 @@ const Results = ({ countries, setCountries }) => {
 const Country = ({c}) => {
   const [temp, setTemp] = useState(0)
   const [wind, setWind] = useState(0)
+  const [icon, setIcon] = useState("")
 
   useEffect(() => {
     axios
@@ -38,6 +39,7 @@ const Country = ({c}) => {
       console.log(response)
       setTemp(response.data.main.temp)
       setWind(response.data.wind.speed)
+      setIcon(response.data.weather[0].icon)
     })
   }, [])
 
@@ -53,6 +55,7 @@ const Country = ({c}) => {
         </ul>
         <img src={c.flags.png} />
         <h3>Weather in {c.capital}</h3>
+        <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather icon" /><br />
         <span>temperature {temp} Kelvin</span><br />
         <span>wind {wind} m/s</span>
       </>
