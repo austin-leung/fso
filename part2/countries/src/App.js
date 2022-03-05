@@ -4,7 +4,6 @@ import axios from 'axios'
 
 const Results = ({ countries, setCountries }) => {
   if (countries.length == 0) return <></>
-    console.log(countries[0]['name'])
   
   if (countries.length > 10) {
     return (
@@ -12,17 +11,16 @@ const Results = ({ countries, setCountries }) => {
     )
   } else if (countries.length > 1) {
     return (
-      <>
+      <ul>
         {countries.map(c => 
-          <>
-          <span>{c.name.common} 
-          &nbsp;
-            <button onClick={() => setCountries([c])} >
-              show
+          <li key={c.name.common}>
+            {c.name.common} 
+            &nbsp;
+              <button onClick={() => setCountries([c])} >
+                show
               </button>
-          </span>
-          <br /></>)}
-      </>
+          </li>)}
+      </ul>
     )
   } else {
     return ( <Country c={countries[0]} />)
@@ -30,6 +28,19 @@ const Results = ({ countries, setCountries }) => {
 }
 
 const Country = ({c}) => {
+  const [temp, setTemp] = useState(0)
+  const [wind, setWind] = useState(0)
+
+  useEffect(() => {
+    axios
+    .get(`https://api.openweathermap.org/data/2.5/weather?lat=${c.capitalInfo.latlng[0]}&lon=${c.capitalInfo.latlng[1]}&appid=${process.env.REACT_APP_API_KEY}`)
+    .then(response => {
+      console.log(response)
+      setTemp(response.data.main.temp)
+      setWind(response.data.wind.speed)
+    })
+  }, [])
+
   return (
     <>
         <h2>{c.name.common}</h2>
@@ -42,6 +53,8 @@ const Country = ({c}) => {
         </ul>
         <img src={c.flags.png} />
         <h3>Weather in {c.capital}</h3>
+        <span>temperature {temp} Kelvin</span><br />
+        <span>wind {wind} m/s</span>
       </>
   )
 }
