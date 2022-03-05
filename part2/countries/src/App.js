@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react'
 import './App.css';
 import axios from 'axios'
 
-const Results = ({ countries }) => {
+const Results = ({ countries, setCountries }) => {
   if (countries.length == 0) return <></>
     console.log(countries[0]['name'])
   
@@ -13,13 +13,25 @@ const Results = ({ countries }) => {
   } else if (countries.length > 1) {
     return (
       <>
-        {countries.map(c => <><span>{c.name.common}</span><br /></>)}
+        {countries.map(c => 
+          <>
+          <span>{c.name.common} 
+          &nbsp;
+            <button onClick={() => setCountries([c])} >
+              show
+              </button>
+          </span>
+          <br /></>)}
       </>
     )
   } else {
-    let c = countries[0]
-      return (
-      <>
+    return ( <Country c={countries[0]} />)
+  }
+}
+
+const Country = ({c}) => {
+  return (
+    <>
         <h2>{c.name.common}</h2>
         <span>capital {c.capital}</span><br />
         <span>area {c.area}</span>
@@ -29,8 +41,7 @@ const Results = ({ countries }) => {
           {Object.values(c.languages).map(l => <li key={l}>{l}</li>)}
         </ul>
       </>
-    )
-  }
+  )
 }
 
 function App() {
@@ -61,7 +72,7 @@ function App() {
         />
       </span>
       <br /> <br/>
-      <Results countries={countries} />
+      <Results countries={countries} setCountries={setCountries} />
     </>
   );
 }
