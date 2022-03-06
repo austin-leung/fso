@@ -20,6 +20,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [searchVal, setSearchVal] = useState('')
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -42,6 +43,13 @@ const App = () => {
           setTimeout(() => {
             setSuccessMessage(null)
           }, 5000)
+          setNewName("")
+          setNewNumber("")
+        })
+        .catch(error => {
+          setSuccessMessage(
+            `Error: Information of '${existingPerson.name}' has already been removed from server`
+          )
           setNewName("")
           setNewNumber("")
         })
