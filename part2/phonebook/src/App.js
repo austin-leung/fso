@@ -37,6 +37,14 @@ const App = () => {
         setNewNumber("")
       })
   }
+
+  const deletePerson = id => {
+    if (!window.confirm(`Delete this person?`)) return
+    personService
+      .deleteCall(id)
+    
+    setPersons(persons.filter(p => p.id !== id))
+  }
  
   return (
     <div>
@@ -49,7 +57,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} searchVal={searchVal} />
+      <Persons persons={persons} searchVal={searchVal} deletePerson={deletePerson} />
 
     </div>
   )
