@@ -46,19 +46,19 @@ const Country = ({c}) => {
   return (
     <>
         <h2>{c.name.common}</h2>
-        <span>capital {c.capital}</span><br />
-        <span>area {c.area}</span>
+        <img src={c.flags.png} class="flag" />
+        <div>Capital: {c.capital}</div>
+        <div>Area: {c.area} m^2</div>
 
-        <h3>languages:</h3>
+        <h3>Languages:</h3>
         <ul>
           {Object.values(c.languages).map(l => <li key={l}>{l}</li>)}
         </ul>
-        <img src={c.flags.png} />
         <h3>Weather in {c.capital}</h3>
-        <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather icon" /><br />
-        <span>temperature {temp} Kelvin</span><br />
-        <span>wind {wind} m/s</span>
-      </>
+        <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} class="weather-icon" alt="weather icon" /><br />
+        <div>Temperature: {temp} Kelvin</div>
+        <div>Wind: {wind} m/s</div>
+    </>
   )
 }
 
@@ -80,7 +80,7 @@ function App() {
   return (
     <>
       <span>
-        find countries &nbsp;
+        Find Countries &nbsp;
         <input
           value={searchVal}
           onChange={(e) => {
