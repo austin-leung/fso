@@ -60,9 +60,23 @@ function getRandomInt(max) {
 app.post('/api/phonebook', (request, response) => {
     const body = request.body
 
-    if (!body.content) {
+    if (!body.name) {
         return response.status(400).json({
-            error: "content missing"
+            error: "name missing"
+        })
+    }
+
+    if (!body.number) {
+        return response.status(400).json({
+            error: "number missing"
+        })
+    }
+
+    const pbEntry = phonebook.find(pb => pb.name === body.name)
+
+    if (pbEntry) {
+        return response.status(400).json({
+            error: "name exist"
         })
     }
 
