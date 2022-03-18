@@ -53,6 +53,30 @@ app.delete('/api/phonebook/:id', (request, response) => {
     response.status(204).end()
 })
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }  
+
+app.post('/api/phonebook', (request, response) => {
+    const body = request.body
+
+    if (!body.content) {
+        return response.status(400).json({
+            error: "content missing"
+        })
+    }
+
+    const pb = {
+        id: getRandomInt(100000),
+        name: body.name || "no name",
+        number: body.number || "no number"
+    }
+
+    phonebook = phonebook.concat(pb)
+
+    response.json(pb)
+})
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
