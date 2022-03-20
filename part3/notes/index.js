@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 
 app.use(express.json())
 
@@ -12,7 +13,7 @@ const requestLogger = (request, response, next) => {
 }
 
 app.use(requestLogger)
-
+app.use(cors())
 
 let notes = [
     {
