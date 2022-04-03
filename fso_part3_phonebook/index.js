@@ -3,10 +3,10 @@ const app = express()
 var morgan = require('morgan')
 
 app.use(express.json())
-// app.use(morgan('tiny'))
 const cors = require('cors')
 
 app.use(cors())
+app.use(express.static('build'))
 
 morgan.token('body', function (req, res) { return JSON.stringify(req.body) })
 
@@ -20,7 +20,6 @@ app.use(morgan(function (tokens, req, res) {
       tokens.body(req, res)
     ].join(' ')
   }))
-  app.use(express.static('build'))
 
 let phonebook = [
     { 
