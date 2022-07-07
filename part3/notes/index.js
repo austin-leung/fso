@@ -3,6 +3,7 @@ const app = express()
 const cors = require('cors')
 require('dotenv').config()
 const Note = require('./models/note')
+const note = require('./models/note')
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
@@ -50,9 +51,17 @@ app.get('/api/notes', (request, response) => {
 
 app.delete('/api/notes/:id', (request, response) => {
   const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
+  Note.findById(id)
+    .then((note) => {
+        if (note) {
+            res.json(note.toJSON())
+        } else {
+            res.status(404).end()
+        }
+    })
+//   notes = notes.filter(note => note.id !== id)
 
-  response.status(204).end()
+//   response.status(204).end()
 })
 
 app.get('/api/notes/:id', (request, response) => {

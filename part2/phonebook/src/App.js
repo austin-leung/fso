@@ -47,9 +47,10 @@ const App = () => {
           setNewNumber("")
         })
         .catch(error => {
-          setSuccessMessage(
-            `Error: Information of '${existingPerson.name}' has already been removed from server`
-          )
+          // setSuccessMessage(
+          //   `Error: Information of '${existingPerson.name}' has already been removed from server`
+          // )
+          setErrorMessage(`Error: ${error}`)
           setNewName("")
           setNewNumber("")
         })
@@ -96,7 +97,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={successMessage} />
+      <Notification message={successMessage || errorMessage} />
       <Filter searchVal={searchVal} setSearchVal={setSearchVal} />
 
       <h3>Add a new</h3>
