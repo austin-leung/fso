@@ -148,6 +148,27 @@ describe('blog list tests', () => {
       'async/await simplifies making async calls'
     )
   })
+
+  describe('deletion of a blog', () => {
+    test('succeeds with status code 204 if id is valid', async () => {
+      const initialBlogs = await listHelper.blogsInDb()
+      const blogToDelete = initialBlogs[0]
+  
+      await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
+  
+      const blogsAtEnd = await listHelper.blogsInDb()
+  
+      expect(blogsAtEnd).toHaveLength(
+        initialBlogs.length - 1
+      )
+  
+      const titles = blogsAtEnd.map(r => r.title)
+  
+      expect(titles).not.toContain(blogToDelete.title)
+    })
+  })
 })
 
 afterAll(() => {
