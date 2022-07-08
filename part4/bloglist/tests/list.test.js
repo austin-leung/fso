@@ -14,6 +14,14 @@ test('dummy returns one', () => {
   expect(result).toBe(1)
 })
 
+beforeEach(async () => {
+  await Blog.deleteMany({})
+  let blogObject = new Blog(listHelper.initialBlogs[0])
+  await  blogObject.save()
+  blogObject = new Blog(listHelper.initialBlogs[1])
+  await blogObject.save()
+})
+
 describe('total likes', () => {
   const listWithOneBlog = [
     {
@@ -89,39 +97,13 @@ describe('total likes', () => {
 })
 
 describe('blog list tests', () => {
-  const initialBlogs = [
-    {
-      _id: "5a422a851b54a676234d17f7",
-      title: "React patterns",
-      author: "Michael Chan",
-      url: "https://reactpatterns.com/",
-      likes: 7,
-      __v: 0
-    },
-    {
-      _id: "5a422aa71b54a676234d17f8",
-      title: "Go To Statement Considered Harmful",
-      author: "Edsger W. Dijkstra",
-      url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-      likes: 5,
-      __v: 0
-    }
-  ]
-
-  beforeEach(async () => {
-    await Blog.deleteMany({})
-    let blogObject = new Blog(initialBlogs[0])
-    await  blogObject.save()
-    blogObject = new Blog(initialBlogs[1])
-    await blogObject.save()
-  })
 
 
   test('returns correct amount of blog posts in JSON', async () => {
     const response = await api.get('/api/blogs').expect(200)
     .expect('Content-Type', /application\/json/)
 
-    expect(response.body).toHaveLength(initialBlogs.length)
+    expect(response.body).toHaveLength(listHelper.initialBlogs.length)
     expect(response.body[0].title).toBe('React patterns')
   })
 
@@ -143,7 +125,7 @@ describe('blog list tests', () => {
   
     const titles = response.body.map(r => r.title)
   
-    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(response.body).toHaveLength(listHelper.initialBlogs.length + 1)
     expect(titles).toContain(
       'async/await simplifies making async calls'
     )
@@ -151,8 +133,8 @@ describe('blog list tests', () => {
 
   describe('deletion of a blog', () => {
     test('succeeds with status code 204 if id is valid', async () => {
-      const initialBlogs = await listHelper.blogsInDb()
-      const blogToDelete = initialBlogs[0]
+      const allInitialBlogs = await listHelper.blogsInDb()
+      const blogToDelete = allInitialBlogs[0]
   
       await api
         .delete(`/api/blogs/${blogToDelete.id}`)
@@ -161,13 +143,31 @@ describe('blog list tests', () => {
       const blogsAtEnd = await listHelper.blogsInDb()
   
       expect(blogsAtEnd).toHaveLength(
-        initialBlogs.length - 1
+        allInitialBlogs.length - 1
       )
   
       const titles = blogsAtEnd.map(r => r.title)
   
       expect(titles).not.toContain(blogToDelete.title)
     })
+  })
+
+  test('a valid blog can be updated', async () => {
+    const initialBlogsStart = await listHelper.blogsInDb()
+    const blogToUpdate = initialBlogsStart[0]
+  
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send({likes: 55})
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+  
+    const blogsAtEnd = await listHelper.blogsInDb()
+  
+    const resultBlog = blogsAtEnd[0]
+  
+    expect(blogsAtEnd).toHaveLength(initialBlogsStart.length)
+    expect(resultBlog.likes).toBe(55)
   })
 })
 
