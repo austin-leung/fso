@@ -65,8 +65,7 @@ const App = () => {
     }
   }
 
-  const handleInputChange = (event) => {
-    const target = event.target
+  const handleInputChange = (target) => {
     const value = target.value
     const name = target.name
 
@@ -119,39 +118,65 @@ const App = () => {
     }
 
     blogService.create(blogObject)
+    setErrorMessage(`a new blog ${inputValue?.title} by ${inputValue?.author} added`)
     setInputValue({title: '', author: '', url: ''})
   }
 
-
   const blogForm = () => (
-    <></>
-    // <form onSubmit={addBlog}>
-    //   <input
-    //     value={newBlog}
-    //     onChange={handleBlogChange}
-    //   />
-    //   <button type="submit">save</button>
-    // </form>  
+    <form onSubmit={addBlog}>
+      <div>
+          title:&nbsp;
+          <input
+            type="text"
+            value={inputValue?.title}
+            name="title"
+            onChange={({ target }) => handleInputChange(target)}
+          />
+      </div>
+      <div>
+          author:&nbsp;
+          <input
+            type="text"
+            value={inputValue?.author}
+            name="author"
+            onChange={({ target }) => handleInputChange(target)}
+          />
+      </div>
+      <div>
+          url:&nbsp;
+          <input
+            type="text"
+            value={inputValue?.url}
+            name="url"
+            onChange={({ target }) => handleInputChange(target)}
+          />
+      </div>
+      <br></br>
+      <button type="submit">save</button>
+    </form>  
   )
 
   return (
     <div>
       <Notification message={errorMessage} />
-
-      {user === null ?
-        loginForm() :
-        <div>
-          <div><p>{user.name} logged-in</p>{logoutForm()}</div>
-          {blogForm()}
-        </div>
-      }
-
       <h2>blogs</h2>
+
       <ul>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
         )}
       </ul>
+
+      <h2>create new</h2>
+
+      {user === null ?
+        loginForm() :
+        <div>
+          <div><p>{user.name} logged-in</p>{logoutForm()}</div>
+          <br></br>
+          {blogForm()}
+        </div>
+      }
     </div>
   )
 }
