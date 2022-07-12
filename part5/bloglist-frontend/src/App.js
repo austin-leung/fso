@@ -86,6 +86,17 @@ const App = () => {
     setBlogsSorted(newBlogs)
   }
 
+  const removeBlog = async(id) => {
+    const blog = blogs.filter((blog => blog.id === id))[0]
+
+    if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
+      await blogService.deleteBlog(id)
+      const newBlogs = await blogService.getAll()
+  
+      setBlogsSorted(newBlogs)
+    }
+  }
+
   const blogFormRef = useRef()
 
   return (
@@ -95,7 +106,7 @@ const App = () => {
 
       <ul>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={removeBlog} user={user}/>
         )}
       </ul>
 
