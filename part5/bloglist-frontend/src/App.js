@@ -10,13 +10,13 @@ import loginService from './services/login'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs => setBlogsSorted(blogs)  
-  )}, [])
+    blogService.getAll().then(blogs => setBlogsSorted(blogs)
+    )}, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -28,7 +28,7 @@ const App = () => {
   }, [])
 
   const setBlogsSorted = (newBlogs) => {
-    newBlogs.sort((a,b) => b.likes - a.likes);
+    newBlogs.sort((a,b) => b.likes - a.likes)
     setBlogs(newBlogs)
   }
 
@@ -41,7 +41,7 @@ const App = () => {
       })
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
-      ) 
+      )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -75,7 +75,7 @@ const App = () => {
 
     await blogService.create(blogObject)
     const newBlogs = await blogService.getAll()
-    
+
     setBlogsSorted(newBlogs)
   }
 
@@ -92,7 +92,7 @@ const App = () => {
     if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
       await blogService.deleteBlog(id)
       const newBlogs = await blogService.getAll()
-  
+
       setBlogsSorted(newBlogs)
     }
   }

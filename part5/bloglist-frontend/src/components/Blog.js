@@ -1,4 +1,4 @@
-const Blog = ({blog, updateBlog, deleteBlog, user}) => {
+const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   const likeBlog = () => {
     const { title, author, url, likes } = blog
 
@@ -33,7 +33,7 @@ const Blog = ({blog, updateBlog, deleteBlog, user}) => {
           }
         </span>
       </li>
-    </div>  
-)}
+    </div>
+  )}
 
 export default Blog
