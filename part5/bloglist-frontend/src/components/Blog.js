@@ -37,7 +37,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
           <div style={hideWhenVisible}>
             <button onClick={toggleVisibility}>view</button>
           </div>
-          <div style={showWhenVisible}>
+          <div style={showWhenVisible} data-testid='blog-detail'>
             URL: {blog.url}
             <br></br>
             Likes: {blog.likes} &nbsp;

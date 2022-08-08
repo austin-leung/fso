@@ -15,7 +15,7 @@ test('renders content', () => {
   const { container } = render(<Blog blog={blog} />)
   expect(container).toHaveTextContent('React patterns')
   expect(container).toHaveTextContent('Michael Chan')
-  expect(container).not.toHaveTextContent('https://reactpatterns.com/')
-  // const urlElement = screen.getByText('https://reactpatterns.com/')
-  // expect(urlElement).toNotBeDefined()
+
+  const blogDetailDiv = screen.getByTestId('blog-detail')
+  expect(blogDetailDiv).toHaveStyle('display: none')
 })
