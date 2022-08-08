@@ -31,6 +31,31 @@ describe('Blog app', function() {
       cy.get('#login-button').click()
 
       cy.get('.error').should('contain', 'Wrong credentials')
+      cy.get('html').should('not.contain', 'Spongebob Squarepants logged in')
     })
   })
+
+  describe.only('When logged in', function() {
+    beforeEach(function() {
+      // log in user here
+      cy.login({ username: 'bikinibigboy', password: 'secret' })
+    })
+
+    it('A blog can be created', function() {
+      // cy.createBlog({ title: 'my title', author: 'my author', url: 'my url' })
+      cy.contains('new blog').click()
+      cy.get('#title').type('my title')
+      cy.get('#author').type('my author')
+      cy.get('#url').type('my url')
+
+      cy.get('#submit-button').click()
+
+      cy.contains('my title')
+      cy.contains('my author')
+      cy.contains('my url')
+    })
+
+
+  })
 })
+
