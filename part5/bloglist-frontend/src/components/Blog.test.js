@@ -50,4 +50,16 @@ describe('Blog', () => {
     const blogDetailDiv = screen.getByTestId('blog-detail')
     expect(blogDetailDiv).not.toHaveStyle('display: none')
   })
+
+  test('calls update blog twice if like button is clicked twice' , async () => {
+    const user = userEvent.setup()
+    const button = screen.getByText('view')
+    await user.click(button)
+
+    const likeButton = screen.getByText('like')
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(mockHandlerUpdate.mock.calls).toHaveLength(2)
+  })
 })
