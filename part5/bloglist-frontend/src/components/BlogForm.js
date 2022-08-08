@@ -33,29 +33,32 @@ const BlogForm = ({ createBlog }) => {
   return (
     <form onSubmit={handleCreateBlog}>
       <div>
-                title:&nbsp;
+        <label htmlFor="title">title</label>
         <input
           type="text"
           value={inputValue?.title}
           name="title"
+          id="title"
           onChange={({ target }) => handleInputChange(target)}
         />
       </div>
       <div>
-                author:&nbsp;
+        <label htmlFor="author">author</label>
         <input
           type="text"
           value={inputValue?.author}
           name="author"
+          id="author"
           onChange={({ target }) => handleInputChange(target)}
         />
       </div>
       <div>
-                url:&nbsp;
+        <label htmlFor="url">url</label>
         <input
           type="text"
           value={inputValue?.url}
           name="url"
+          id="url"
           onChange={({ target }) => handleInputChange(target)}
         />
       </div>
