@@ -73,11 +73,53 @@ describe('Blog app', function() {
 
       cy.contains('my title2').parent().as('secondParent')
       cy.get('@secondParent').find('button').contains('view').click()
-
       cy.get('@secondParent').find('button').contains('remove').click()
       cy.get('html').should('not.contain', 'my title2')
     })
 
+    it.only('orders blogs by most likes', () => {
+      cy.createBlog({ title: 'my title1', author: 'my author1', url: 'my url1' })
+      cy.createBlog({ title: 'my title2', author: 'my author2', url: 'my url2' })
+      cy.createBlog({ title: 'my title3', author: 'my author3', url: 'my url3' })
+      
+      cy.contains('my title2').parent().as('secondParent')
+      cy.get('@secondParent').find('button').contains('view').click()
+      cy.get('@secondParent').find('button').contains('like').click()
+      
+      cy.contains('my title3').parent().as('thirdParent')
+      cy.get('@thirdParent').find('button').contains('view').click()
+      cy.wait(25)
+      cy.get('@thirdParent').find('button').contains('like').click()
+      cy.wait(25)
+
+      cy.get('@secondParent').find('button').contains('like').click()
+      cy.wait(25)
+
+      cy.get('.blog').eq(0).contains('my title2')
+      cy.get('.blog').eq(1).contains('my title3')
+      cy.get('.blog').eq(2).contains('my title1')
+
+      cy.get('@thirdParent').find('button').contains('like').click()
+      cy.wait(25)
+      cy.get('@thirdParent').find('button').contains('like').click()
+      cy.wait(25)
+
+      cy.wait(100)
+      cy.get('.blog').eq(0).contains('my title3')
+      cy.get('.blog').eq(1).contains('my title2')
+      cy.get('.blog').eq(2).contains('my title1')
+
+      // cy.get('.blog').eq(1).should('contain', 'my title1')
+      // cy.get('.blog').eq(0).should('contain', 'my title2')
+
+      // cy.contains('my title1').parent().as('firstParent')
+      // cy.get('@firstParent').find('button').contains('view').click()
+      // cy.get('@firstParent').find('button').contains('like').click()
+      // cy.get('@firstParent').find('button').contains('like').click()
+
+      // cy.get('.blog').eq(0).should('contain', 'my title1')
+      // cy.get('.blog').eq(1).should('contain', 'my title2')
+    })
   })
 })
 

@@ -29,7 +29,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   return (
-    <div>
+    <div className='blog'>
       <li>
         <span>
           {blog.title} by {blog.author}&nbsp;

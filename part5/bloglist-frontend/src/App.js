@@ -28,7 +28,7 @@ const App = () => {
   }, [])
 
   const setBlogsSorted = (newBlogs) => {
-    newBlogs.sort((a,b) => b.likes - a.likes)
+    newBlogs.sort((a,b) => (b.likes || 0) - (a.likes || 0))
     setBlogs(newBlogs)
   }
 
