@@ -32,6 +32,8 @@ const reducer = (state = initialState, action) => {
         votes: anecdoteToChange.votes + 1
       }
       return state.map(a => a.id !== id ? a : changedAnecdote)
+    case 'NEW_ANECDOTE':
+      return state.concat(asObject(action.data))
     default:
       return state
   }
