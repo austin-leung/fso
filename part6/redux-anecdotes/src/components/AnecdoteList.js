@@ -5,9 +5,13 @@ const AnecdoteList = (props) => {
     const dispatch = useDispatch()
     const anecdotes = useSelector(state => state.anecdotes)
 
-    const vote = (id) => {
-        console.log('vote', id)
-        dispatch({ type: 'anecdotes/makeVote', payload: id })
+    const vote = (anecdote) => {
+        console.log('vote', anecdote.id)
+        dispatch({ type: 'anecdotes/makeVote', payload: anecdote.id })
+        dispatch({ type: 'notification/setNotification', payload: `you voted '${anecdote.content}'` })
+        setTimeout(() => {
+            dispatch({ type: 'notification/removeNotification' })
+        }, 5000)
     }
 
     return (
@@ -19,7 +23,7 @@ const AnecdoteList = (props) => {
                     </div>
                     <div>
                     has {anecdote.votes}
-                    <button onClick={() => vote(anecdote.id)}>vote</button>
+                    <button onClick={() => vote(anecdote)}>vote</button>
                     </div>
                 </div>
             )}
