@@ -54,7 +54,7 @@ describe('Blog app', function() {
       cy.contains('my url')
     })
 
-    it.only('can like a blog', () => {
+    it('can like a blog', () => {
       cy.createBlog({ title: 'my title', author: 'my author', url: 'my url' })
       cy.createBlog({ title: 'my title2', author: 'my author2', url: 'my url2' })
       cy.createBlog({ title: 'my title3', author: 'my author3', url: 'my url3' })
@@ -65,6 +65,17 @@ describe('Blog app', function() {
       cy.get('@secondParent').should('contain', 0)
       cy.get('@secondParent').find('button').contains('like').click()
       cy.get('@secondParent').should('contain', 1)
+    })
+
+    it('can delete a blog', () => {
+      cy.createBlog({ title: 'my title', author: 'my author', url: 'my url' })
+      cy.createBlog({ title: 'my title2', author: 'my author2', url: 'my url2' })
+
+      cy.contains('my title2').parent().as('secondParent')
+      cy.get('@secondParent').find('button').contains('view').click()
+
+      cy.get('@secondParent').find('button').contains('remove').click()
+      cy.get('html').should('not.contain', 'my title2')
     })
 
   })
