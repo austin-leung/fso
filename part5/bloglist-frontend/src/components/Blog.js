@@ -9,7 +9,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
       author,
       url,
       user: blog.user?.id || blog.user,
-      likes: likes + 1
+      likes: (likes || 0) + 1
     }
 
     updateBlog(blog.id, newBlogObject)
@@ -40,7 +40,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
           <div style={showWhenVisible} data-testid='blog-detail'>
             URL: {blog.url}
             <br></br>
-            Likes: {blog.likes} &nbsp;
+            Likes: {blog.likes || 0} &nbsp;
             <button onClick={likeBlog}>
               like
             </button>

@@ -35,14 +35,13 @@ describe('Blog app', function() {
     })
   })
 
-  describe.only('When logged in', function() {
+  describe('When logged in', function() {
     beforeEach(function() {
       // log in user here
       cy.login({ username: 'bikinibigboy', password: 'secret' })
     })
 
-    it('A blog can be created', function() {
-      // cy.createBlog({ title: 'my title', author: 'my author', url: 'my url' })
+    it('can create a blog', function() {
       cy.contains('new blog').click()
       cy.get('#title').type('my title')
       cy.get('#author').type('my author')
@@ -55,6 +54,18 @@ describe('Blog app', function() {
       cy.contains('my url')
     })
 
+    it.only('can like a blog', () => {
+      cy.createBlog({ title: 'my title', author: 'my author', url: 'my url' })
+      cy.createBlog({ title: 'my title2', author: 'my author2', url: 'my url2' })
+      cy.createBlog({ title: 'my title3', author: 'my author3', url: 'my url3' })
+
+
+      cy.contains('my title2').parent().as('secondParent')
+      cy.get('@secondParent').find('button').contains('view').click() // view
+      cy.get('@secondParent').should('contain', 0)
+      cy.get('@secondParent').find('button').contains('like').click()
+      cy.get('@secondParent').should('contain', 1)
+    })
 
   })
 })
