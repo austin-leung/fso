@@ -3,91 +3,36 @@
     {
       "content": "If it hurts, do it more often",
       "id": "47145",
-      "votes": 0
+      "votes": 1,
+      "likes": null
     },
     {
       "content": "Adding manpower to a late software project makes it later!",
       "id": "21149",
-      "votes": 0
+      "votes": 0,
+      "likes": null
     },
     {
       "content": "The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
       "id": "69581",
-      "votes": 0
+      "votes": 3,
+      "likes": 1
     },
     {
       "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
       "id": "36975",
-      "votes": 0
+      "votes": 0,
+      "likes": 1
     },
     {
       "content": "Premature optimization is the root of all evil.",
       "id": "25170",
-      "votes": 0
+      "votes": 2,
+      "likes": 4
     },
     {
       "content": "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
       "id": "98312",
-      "votes": 0
-    },
-    {
-      "content": "gg",
-      "id": "34055",
-      "votes": 0
-    },
-    {
-      "content": "a",
-      "id": "64901",
-      "votes": 0
-    },
-    {
-      "content": "tt",
-      "id": "31495",
-      "votes": 0
-    },
-    {
-      "content": "ff",
-      "id": "36872",
-      "votes": 0
-    },
-    {
-      "content": "okookok",
-      "id": "91883",
-      "votes": 0
-    },
-    {
-      "content": "ff",
-      "id": "24312",
-      "votes": 0
-    },
-    {
-      "content": "a",
-      "id": "86608",
-      "votes": 0
-    },
-    {
-      "content": "lol",
-      "id": "94629",
-      "votes": 0
-    },
-    {
-      "content": "f",
-      "id": "28480",
-      "votes": 0
-    },
-    {
-      "content": "gg",
-      "id": "41944",
-      "votes": 0
-    },
-    {
-      "content": "fff",
-      "id": "65093",
-      "votes": 0
-    },
-    {
-      "content": "ff3",
-      "id": "18620",
       "votes": 0
     }
   ]
