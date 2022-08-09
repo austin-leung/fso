@@ -12,7 +12,7 @@ const App = () => {
     anecdoteService.getAll().then(anecdotes =>
       dispatch(setAnecdotes(anecdotes))
     )
-  }, [dispatch])
+  }, [])
 
 
   return (
