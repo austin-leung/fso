@@ -75,14 +75,14 @@ const App = () => {
   //   dispatch(initializeBlogs())
   // };
 
-  const removeBlog = async (id) => {
-    const blog = blogs.filter((blog) => blog.id === id)[0];
+  // const removeBlog = async (id) => {
+  //   const blog = blogs.filter((blog) => blog.id === id)[0];
 
-    if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
-      await blogService.deleteBlog(id);
-      dispatch(initializeBlogs())
-    }
-  };
+  //   if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
+  //     await blogService.deleteBlog(id);
+  //     dispatch(initializeBlogs())
+  //   }
+  // };
 
   const blogFormRef = useRef();
 
@@ -96,8 +96,6 @@ const App = () => {
           <Blog
             key={blog.id}
             blog={blog}
-            // updateBlog={updateBlog}
-            deleteBlog={removeBlog}
             user={user}
           />
         ))}
