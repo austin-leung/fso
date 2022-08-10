@@ -1,17 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-const initialState = 'notif default'
+const initialState = {
+    content: '',
+    timeoutId: -1
+}
 
 const notificationSlice = createSlice({
     name: 'notification',
     initialState,
     reducers: {
         setNotificationR(state, action) {
-            const content = action.payload
-            return content
+            clearTimeout(state.timeoutId)
+            return action.payload
         },
         removeNotification(state, action) {
-            return ''
+            return initialState
         }
     }
 })
@@ -20,10 +23,13 @@ export const { setNotificationR, removeNotification } = notificationSlice.action
 
 export const setNotification = (content, time) => {
     return async dispatch => {
-        dispatch(setNotificationR(content))
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             dispatch(removeNotification())
         }, time)
+        dispatch(setNotificationR({ 
+            content: content,
+            timeoutId
+        }))
     }
 }
 
