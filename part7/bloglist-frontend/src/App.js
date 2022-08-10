@@ -5,19 +5,18 @@ import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
-import blogService from "./services/blogs";
-import loginService from "./services/login";
 import { initializeBlogs, createBlog } from './reducers/blogReducer';
 import { setNotification } from './reducers/notificationReducer';
+import { setUser, login, logout } from './reducers/userReducer'
 
 const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
 
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
   const notification = useSelector(state => state.notification.content)
+  const user = useSelector(state => state.user)
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -27,8 +26,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
+      dispatch(setUser(user));
     }
   }, []);
 
@@ -36,19 +34,11 @@ const App = () => {
     event.preventDefault();
 
     try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
+      dispatch(login(username, password))
       setUsername("");
       setPassword("");
     } catch (exception) {
-      console.log("bad login")
       dispatch(setNotification("Wrong credentials", 5000))
-      console.log(notification)
     }
   };
 
@@ -57,7 +47,7 @@ const App = () => {
 
     try {
       window.localStorage.removeItem("loggedBlogappUser");
-      setUser(null);
+      dispatch(logout())
       setUsername("");
       setPassword("");
     } catch (exception) {
@@ -69,20 +59,6 @@ const App = () => {
     blogFormRef.current.toggleVisibility();
     dispatch(createBlog(blogObject))
   };
-
-  // const updateBlog = async (id, newBlogObject) => {
-  //   await blogService.update(id, newBlogObject);
-  //   dispatch(initializeBlogs())
-  // };
-
-  // const removeBlog = async (id) => {
-  //   const blog = blogs.filter((blog) => blog.id === id)[0];
-
-  //   if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
-  //     await blogService.deleteBlog(id);
-  //     dispatch(initializeBlogs())
-  //   }
-  // };
 
   const blogFormRef = useRef();
 
