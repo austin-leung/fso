@@ -70,10 +70,10 @@ const App = () => {
     dispatch(createBlog(blogObject))
   };
 
-  const updateBlog = async (id, newBlogObject) => {
-    await blogService.update(id, newBlogObject);
-    dispatch(initializeBlogs())
-  };
+  // const updateBlog = async (id, newBlogObject) => {
+  //   await blogService.update(id, newBlogObject);
+  //   dispatch(initializeBlogs())
+  // };
 
   const removeBlog = async (id) => {
     const blog = blogs.filter((blog) => blog.id === id)[0];
@@ -96,7 +96,7 @@ const App = () => {
           <Blog
             key={blog.id}
             blog={blog}
-            updateBlog={updateBlog}
+            // updateBlog={updateBlog}
             deleteBlog={removeBlog}
             user={user}
           />

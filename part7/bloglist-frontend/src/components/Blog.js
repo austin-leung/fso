@@ -1,18 +1,23 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { updateBlog } from '../reducers/blogReducer'
 
-const Blog = ({ blog, updateBlog, deleteBlog, user }) => {
+const Blog = ({ blog, deleteBlog, user }) => {
+  const dispatch = useDispatch()
+
   const likeBlog = () => {
-    const { title, author, url, likes } = blog;
+    // const { title, author, url, likes } = blog;
 
-    const newBlogObject = {
-      title,
-      author,
-      url,
-      user: blog.user?.id || blog.user,
-      likes: (likes || 0) + 1,
-    };
+    // const newBlogObject = {
+    //   title,
+    //   author,
+    //   url,
+    //   user: blog.user?.id || blog.user,
+    //   likes: (likes || 0) + 1,
+    // };
 
-    updateBlog(blog.id, newBlogObject);
+    // updateBlog(blog.id, newBlogObject);
+    dispatch(updateBlog(blog))
   };
 
   const handleRemoveBlog = () => {
