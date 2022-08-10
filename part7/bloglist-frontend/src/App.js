@@ -72,9 +72,7 @@ const App = () => {
 
   const updateBlog = async (id, newBlogObject) => {
     await blogService.update(id, newBlogObject);
-    const newBlogs = await blogService.getAll();
-
-    // setBlogsSorted(newBlogs);
+    dispatch(initializeBlogs())
   };
 
   const removeBlog = async (id) => {
@@ -82,9 +80,7 @@ const App = () => {
 
     if (window.confirm(`Remove ${blog.title} by ${blog.author}`)) {
       await blogService.deleteBlog(id);
-      const newBlogs = await blogService.getAll();
-
-      // setBlogsSorted(newBlogs);
+      dispatch(initializeBlogs())
     }
   };
 
