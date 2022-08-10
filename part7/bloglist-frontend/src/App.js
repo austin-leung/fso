@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import Notification from "./components/Notification";
@@ -6,17 +7,21 @@ import Togglable from "./components/Togglable";
 import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import { initializeBlogs, createBlog } from './reducers/blogReducer';
+import { setNotification } from './reducers/notificationReducer';
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
 
+  const dispatch = useDispatch()
+  const blogs = useSelector(state => state.blogs)
+  const notification = useSelector(state => state.notification.content)
+
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogsSorted(blogs));
-  }, []);
+    dispatch(initializeBlogs())
+  }, [dispatch]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -26,11 +31,6 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
-
-  const setBlogsSorted = (newBlogs) => {
-    newBlogs.sort((a, b) => (b.likes || 0) - (a.likes || 0));
-    setBlogs(newBlogs);
-  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -46,10 +46,9 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrorMessage("Wrong credentials");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      console.log("bad login")
+      dispatch(setNotification("Wrong credentials", 5000))
+      console.log(notification)
     }
   };
 
@@ -62,27 +61,20 @@ const App = () => {
       setUsername("");
       setPassword("");
     } catch (exception) {
-      setErrorMessage("Something went wrong with logging out");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      dispatch(setNotification("Something went wrong with logging out", 5000));
     }
   };
 
   const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility();
-
-    await blogService.create(blogObject);
-    const newBlogs = await blogService.getAll();
-
-    setBlogsSorted(newBlogs);
+    dispatch(createBlog(blogObject))
   };
 
   const updateBlog = async (id, newBlogObject) => {
     await blogService.update(id, newBlogObject);
     const newBlogs = await blogService.getAll();
 
-    setBlogsSorted(newBlogs);
+    // setBlogsSorted(newBlogs);
   };
 
   const removeBlog = async (id) => {
@@ -92,7 +84,7 @@ const App = () => {
       await blogService.deleteBlog(id);
       const newBlogs = await blogService.getAll();
 
-      setBlogsSorted(newBlogs);
+      // setBlogsSorted(newBlogs);
     }
   };
 
@@ -100,7 +92,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification message={notification} />
       <h2>blogs</h2>
 
       <ul>
