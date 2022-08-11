@@ -3,6 +3,7 @@ import BlogList from "./BlogList";
 import UserList from "./UserList";
 import Notification from "./Notification";
 import User from "./User"
+import BlogDetail from "./BlogDetail"
 import { useSelector } from 'react-redux';
 
 
@@ -29,6 +30,7 @@ const notification = useSelector(state => state.notification.content)
         <Route path="/" element={<BlogList />} />
         <Route path="/users" element={<UserList />} />
         <Route path="/users/:id" element={<User />} />
+        <Route path="/blogs/:id" element={<BlogDetail />} />
       </Routes>
     </Router>
   );

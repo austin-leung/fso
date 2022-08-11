@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useRef, useEffect } from 'react'
-import Blog from "./Blog";
+import { Link } from 'react-router-dom'
 import Togglable from "./Togglable";
 import BlogForm from "./BlogForm";
 import { createBlog, initializeBlogs } from "../reducers/blogReducer"
@@ -26,7 +26,10 @@ const dispatch = useDispatch()
         <h2>blogs</h2>
       <ul>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user} />
+          <li key={blog.id}>
+            <Link to={`/blogs/${blog.id}`}>{blog.title} by {blog.author}</Link>
+            <p>Likes: {blog.likes || 0}</p>
+          </li>
         ))}
       </ul>
       <h2>create new</h2>
