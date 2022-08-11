@@ -48,7 +48,7 @@ const App = () => {
 
 
   return (
-    <div>
+    <div className="container">
       <Menu />
 
       {user === null ? (
