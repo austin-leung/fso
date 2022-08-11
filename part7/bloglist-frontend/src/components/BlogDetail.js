@@ -24,6 +24,12 @@ const BlogDetail = () => {
             <p>{blog.url}</p>
             <span>{blog.likes} likes <button onClick={handleLike}>like</button></span>
             <p>added by {blog.author}</p>
+            <h4>comments</h4>
+            <ul>
+                {blog.comments?.map(c => (
+                    <li key={c}>{c}</li>
+                ))}
+            </ul>
         </>
     )
 }
