@@ -24,6 +24,7 @@ const BlogForm = ({ createBlog }) => {
       author: inputValue?.author,
       url: inputValue?.url,
       likes: 0,
+      comments: []
     };
 
     createBlog(blogObject);
