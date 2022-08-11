@@ -1,11 +1,8 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
-import Notification from "./components/Notification";
+import { useState, useEffect } from "react";
 import LoginForm from "./components/LoginForm";
 import Togglable from "./components/Togglable";
-import BlogForm from "./components/BlogForm";
-import { initializeBlogs, createBlog } from './reducers/blogReducer';
+import Menu from "./components/Menu"
 import { setNotification } from './reducers/notificationReducer';
 import { setUser, login, logout } from './reducers/userReducer'
 
@@ -14,13 +11,7 @@ const App = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch()
-  const blogs = useSelector(state => state.blogs)
-  const notification = useSelector(state => state.notification.content)
-  const user = useSelector(state => state.user)
-
-  useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch]);
+  const user = useSelector(state => state.user.user)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -55,32 +46,14 @@ const App = () => {
     }
   };
 
-  const addBlog = async (blogObject) => {
-    blogFormRef.current.toggleVisibility();
-    dispatch(createBlog(blogObject))
-  };
-
-  const blogFormRef = useRef();
 
   return (
     <div>
-      <Notification message={notification} />
-      <h2>blogs</h2>
-
-      <ul>
-        {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-          />
-        ))}
-      </ul>
-
-      <h2>create new</h2>
+      <Menu />
 
       {user === null ? (
         <Togglable buttonLabel="login">
+          {user}
           <LoginForm
             username={username}
             password={password}
@@ -94,11 +67,9 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={handleLogout}>logout</button>
           </p>
-          <Togglable buttonLabel="new blog" ref={blogFormRef}>
-            <BlogForm createBlog={addBlog} />
-          </Togglable>
         </div>
       )}
+
     </div>
   );
 };

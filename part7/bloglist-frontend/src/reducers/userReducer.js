@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
+import userService from '../services/users'
 
 const initialState = {
-    user: null
+    user: null,
+    users: []
 }
 
 const userSlice = createSlice({
@@ -12,13 +14,21 @@ const userSlice = createSlice({
     reducers: {
         setUserR(state, action) {
             const user = action.payload
-            console.log(action.payload)
-            return user
+            return {
+                ...state,
+                user
+            }
+        },
+        setUsers(state, action) {
+            return {
+                ...state,
+                users: action.payload
+            }
         }
     }
 })
 
-export const { setUserR } = userSlice.actions
+export const { setUserR, setUsers } = userSlice.actions
 
 export const setUser = (user) => {
     return async dispatch => {
@@ -43,6 +53,13 @@ export const login = (username, password) => {
 export const logout = () => {
     return async dispatch => {
         dispatch(setUserR(null));
+    }
+}
+
+export const getAllUsers = () => {
+    return async dispatch => {
+        const users = await userService.getAll()
+        dispatch(setUsers(users))
     }
 }
 
