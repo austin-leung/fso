@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import BlogList from "./BlogList";
 import UserList from "./UserList";
 import Notification from "./Notification";
+import User from "./User"
 import { useSelector } from 'react-redux';
 
 
@@ -21,11 +22,13 @@ const notification = useSelector(state => state.notification.content)
         <Link style={padding} to="/users">
           users
         </Link>
+
       </div>
       <Notification content={notification} />
       <Routes>
         <Route path="/" element={<BlogList />} />
         <Route path="/users" element={<UserList />} />
+        <Route path="/users/:id" element={<User />} />
       </Routes>
     </Router>
   );
